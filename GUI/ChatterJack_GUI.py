@@ -1,6 +1,6 @@
 import wx
 import text_to_speech
-from coreEngine import getAnswer
+from coreEngine import search_controls
 
 
 def SendCurrQuestion(curr_question):
