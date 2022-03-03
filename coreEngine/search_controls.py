@@ -1,3 +1,4 @@
+# Imports the Search() Class from the search.py file.
 from search import Search
 
 answer = Search()
