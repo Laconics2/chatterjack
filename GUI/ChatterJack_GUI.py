@@ -1,6 +1,6 @@
 import wx
 import text_to_speech
-import testchatbot
+from coreEngine import getAnswer
 
 
 def SendCurrQuestion(curr_question):
