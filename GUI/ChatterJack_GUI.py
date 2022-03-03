@@ -4,7 +4,7 @@ from coreEngine import search_controls
 
 
 def SendCurrQuestion(curr_question):
-    return testchatbot.getAnswer(curr_question)
+    return search_controls.getAnswer(curr_question)
 
 
 class ChatterJackFrame(wx.Frame):
