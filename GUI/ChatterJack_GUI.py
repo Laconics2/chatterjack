@@ -1,6 +1,7 @@
 import wx
 import text_to_speech
 from coreEngine import search_controls
+from coreEngine import coredata
 
 
 def SendCurrQuestion(curr_question):
@@ -20,8 +21,9 @@ class ChatterJackFrame(wx.Frame):
         # Sets a base line for text font
         self.font = wx.Font(20, family=wx.FONTFAMILY_MODERN, style=0, weight=90,
                             underline=False, faceName="", encoding=wx.FONTENCODING_DEFAULT)
-        # A text line that the ChatBot will be using to reply (closed caption)
-        self.bot_txt = wx.StaticText(panel, -1, "Hello how can I help you today?")
+        # A text line that the ChatBot will be using to reply (closed captions)
+        self.bot_txt = wx.StaticText(panel, -1, coredata.startMess)
+        # coredata.startMess is a predefined start phrase inside coredata
         self.bot_txt.SetFont(self.font)
         # Button for user to click when answer is properly inserted in the txt_box
         sub_btn = wx.Button(panel, -1, "Submit")
@@ -40,7 +42,7 @@ class ChatterJackFrame(wx.Frame):
         panel.SetSizer(sizer)
         panel.Layout()
 
-    def OnTimeToSubmit(self, evt):
+    def OnTimeToSubmit(self):
         """Event handler for the Submit button click."""
         return_str = SendCurrQuestion(self.txt_box.GetValue())
         # return answer as test-to-speech and a closed caption
@@ -48,7 +50,7 @@ class ChatterJackFrame(wx.Frame):
         text_to_speech.return_str_as_speech(return_str)
 
 
-class MyApp(wx.App):
+class ChatterJack(wx.App):
     def OnInit(self):
         frame = ChatterJackFrame(None, "ChatterJack ChatBot")
         self.SetTopWindow(frame)
@@ -56,5 +58,5 @@ class MyApp(wx.App):
         return True
 
 
-app = MyApp(redirect=True)
+app = ChatterJack(redirect=True)
 app.MainLoop()
