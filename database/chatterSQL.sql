@@ -24,5 +24,6 @@ author MEDIUMTEXT,
 class_name MEDIUMTEXT,
 _where MEDIUMTEXT,
 _who MEDIUMTEXT,
-_what MEDIUMTEXT
+_what MEDIUMTEXT,
+_when MEDIUMTEXT
 );
