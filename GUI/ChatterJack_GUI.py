@@ -17,7 +17,7 @@ class ChatterJackFrame(wx.Frame):
 
         # Create the Panel to put the widgets on.
         panel = wx.Panel(self)
-        # Creates a grid sizer with 3 rows and 2 columns
+        # Creates a grid sizer with 2 rows and 2 columns
         grid_sizer = wx.GridSizer(2, 2, 5, 5)
         # Sets a base line for text font
         self.font = wx.Font(20, family=wx.FONTFAMILY_MODERN, style=0, weight=90,
