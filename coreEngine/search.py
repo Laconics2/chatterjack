@@ -10,7 +10,7 @@ from coredata import table_list
 grab = Segment()
 
 
-class Search():
+class Search:
     connected = False
     __db = None
 
@@ -68,9 +68,10 @@ class Search():
                 with self.__db.cursor() as cursor:
                     cursor.execute(searching, [('%' + personName + '%'), personName])
                     answers = cursor.fetchone()
-                    for v_a in answers.values():
-                        answer = v_a
-                    return answer
+                    if answers is not None:
+                        for v_a in answers.values():
+                            answer = v_a
+                        return answer
             except pymysql.Error as e:
                 return False
 
@@ -81,9 +82,10 @@ class Search():
                 with self.__db.cursor() as cursor:
                     cursor.execute(searching, [('%' + organName + '%')])
                     answers = cursor.fetchone()
-                    for v_a in answers.values():
-                        answer = v_a
-                    return answer
+                    if answers is not None:
+                        for v_a in answers.values():
+                            answer = v_a
+                        return answer
             except pymysql.Error as e:
                 return False
 
@@ -94,13 +96,13 @@ class Search():
                 with self.__db.cursor() as cursor:
                     cursor.execute(searching, ('%' + className + '%'))
                     answers = cursor.fetchone()
-                    for v_a in answers.values():
-                        answer = v_a
-                    return answer
+                    if answers is not None:
+                        for v_a in answers.values():
+                            answer = v_a
+                        return answer
             except pymysql.Error as e:
                 return False
 
     # close the cursor and database
     def close(self):
         self.__db.close()
-
