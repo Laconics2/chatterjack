@@ -1,6 +1,6 @@
 import wx
 import text_to_speech
-from coreEngine import coredata, search_controls
+from coreEngine import coredata, search_controls, search
 
 
 def SendCurrQuestion(curr_question):
@@ -33,7 +33,8 @@ class ChatterJackFrame(wx.Frame):
         # line below is used as a filler box to be replaced with robot face in the future
         grid_sizer.Add(wx.StaticText(panel, label=""), 0, flag=wx.EXPAND)
         # A text box for the user to input their question into, sets size to 2/3 of the screen size.
-        self.txt_box = wx.TextCtrl(panel, -1, "Ask Your Question Here...", size=((wx.DisplaySize()[1]/1.5), -1))
+        self.txt_box = wx.TextCtrl(panel, 2, "Ask Your Question Here...", size=((wx.DisplaySize()[1]/1.5), -1),
+                                   style=wx.TE_PROCESS_ENTER)
         # add the txt_box to the grid_sizer
         grid_sizer.Add(self.txt_box, 100, flag=wx.ALIGN_CENTER_VERTICAL | wx.ALIGN_RIGHT)
         # Button for user to click when answer is properly inserted in the txt_box
@@ -41,6 +42,7 @@ class ChatterJackFrame(wx.Frame):
         # add sub_btn to grid_sizer
         grid_sizer.Add(sub_btn, 0, wx.ALIGN_CENTER_VERTICAL)
         # bind the button event to it's handler function
+        self.Bind(wx.EVT_TEXT_ENTER, self.OnTimeToSubmit, id=2)
         self.Bind(wx.EVT_BUTTON, self.OnTimeToSubmit, sub_btn)
         panel.SetSizer(grid_sizer)
 
@@ -48,8 +50,12 @@ class ChatterJackFrame(wx.Frame):
         """Event handler for the Submit button click."""
         return_str = SendCurrQuestion(self.txt_box.GetValue())
         # return answer as test-to-speech and a closed caption
+        if not return_str:
+            return_str = "Sorry, I could not find the answer to your question."
         self.bot_txt.SetLabelText(return_str)
+        self.bot_txt.Wrap(wx.DisplaySize()[1] / 3)
         text_to_speech.return_str_as_speech(return_str)
+        search.grab.clean()
 
 
 class ChatterJack(wx.App):
