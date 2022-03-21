@@ -4,7 +4,7 @@ from gtts import gTTS
 
 # This module is imported so that we can
 # play the converted audio
-import os
+from playsound import playsound
 
 
 def return_str_as_speech(question):
@@ -15,11 +15,11 @@ def return_str_as_speech(question):
     # here we have marked slow=False. Which tells
     # the module that the converted audio should
     # have a high speed
-    speech_obj = gTTS(text=question, lang=language, slow=False)
+    speech_obj = gTTS(text=question, lang=language, slow=False, tld='co.uk')
 
     # Saving the converted audio in a mp3 file named
     # welcome
     speech_obj.save("answer.mp3")
 
     # Playing the converted file
-    os.system("start answer.mp3 &")
+    playsound('answer.mp3')
