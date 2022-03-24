@@ -6,7 +6,7 @@ interrogatives = ['what', 'where', 'when', 'how', 'which', 'who']
 
 nauInf = ['siccs', 'ceias', 'nau', 'sbs', 'engineering building', 'cline library', 'engineering']
 
-calls = ['dr', 'ms', 'mr', 'miss', 'mrs', 'dr.', 'ms.', 'mr.', 'miss.']
+calls = ['dr', 'ms', 'mr', 'miss', 'mrs', 'dr.', 'ms.', 'mr.', 'miss.', 'doctor']
 
 table_list = ['ORG', 'PERSON', 'CLASS']
 
