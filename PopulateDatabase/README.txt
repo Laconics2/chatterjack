@@ -1,3 +1,6 @@
+required packages: BeautifulSoup
+                   json( i think this comes default?)
+                   mysql.connector( this should already be installed on the server)
 run insertWebData.py to populate the database
 
 NOTE: There are duplicates of some classes.
