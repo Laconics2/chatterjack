@@ -52,10 +52,11 @@ class ChatterJackFrame(wx.Frame):
 
     def OnTimeToSubmit(self, evt):
         """Event handler for the Submit button click."""
-        return_str = SendCurrQuestion(self.txt_box.GetValue())
-        # return answer as test-to-speech and a closed caption
-        if not return_str:
+        try:
+            return_str = SendCurrQuestion(self.txt_box.GetValue())
+        except Exception:
             return_str = "Sorry, I could not find the answer to your question."
+        # return answer as text-to-speech and a closed caption
         self.bot_txt.SetLabelText(return_str)
         self.bot_txt.Wrap(wx.DisplaySize()[1] / 3)
         text_to_speech.return_str_as_speech(return_str)
