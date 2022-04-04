@@ -81,3 +81,4 @@ class ChatterJack(wx.App):
 
 app = ChatterJack(redirect=True)
 app.MainLoop()
+
