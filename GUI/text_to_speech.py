@@ -22,4 +22,4 @@ def return_str_as_speech(question):
     speech_obj.save("answer.mp3")
 
     # Playing the converted file
-    playsound('answer.mp3')
+    playsound("answer.mp3")
