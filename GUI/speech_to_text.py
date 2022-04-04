@@ -49,3 +49,4 @@ def get_large_audio_transcription(path):
                 whole_text += text
     # return the text for all chunks detected
     return whole_text
+
