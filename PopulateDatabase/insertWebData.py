@@ -49,7 +49,7 @@ class facultyDatabasePopulation:
 
             for course in courseList:
                 # format (classNumber, classDescription, classProf, courseID)
-                insertData = (course[0], "TBD", course[2], course[1], "TBD", self.WebScrapper.getFacMember())
+                insertData = (course[0], "TBD", course[2], course[1], course[4], self.WebScrapper.getFacMember())
                 self.cursor.execute(sqlQuery, insertData)
                 self.connection.commit()
     def populateDatabase(self):
@@ -66,7 +66,7 @@ class facultyDatabasePopulation:
         if self.connection.is_connected():
             self.connection.close()
             print("MySQL connection is closed")
-populator = facultyDatabasePopulation("ceias_fac_nau_ids.txt")
+populator = facultyDatabasePopulation("testCeias.txt")
 #populator.populateFac("mlv83")
 populator.populateDatabase()
 populator.closeConnection()
