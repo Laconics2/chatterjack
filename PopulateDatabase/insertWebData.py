@@ -1,4 +1,5 @@
 import mysql.connector
+import sys
 from mysql.connector import errorcode
 from webscrapper import WebScrapper
 
@@ -20,17 +21,9 @@ class facultyDatabasePopulation:
 
     def populateFac(self):
         if self.connection is not None and self.cursor is not None:
-            facultyInfo = self.WebScrapper.getFacInfo()
-            facultyLName = facultyInfo[0].split()[-1]
-            insertData = (facultyInfo[0],
-                         facultyLName,
-                         facultyInfo[1],
-                         facultyInfo[2],
-                         "TBD",
-                         self.WebScrapper.getFacMember(),
-                         "TBD")
+            insertData = self.WebScrapper.getFacInfo()
             sqlQuery = """INSERT INTO Person (person_name,person_spe_name,
-                                              _where,_who, _when,author,sex)
+                                              _where,_who, _when, sex, author)
                             VALUES (%s, %s, %s, %s, %s, %s, %s)          """
 
             self.cursor.execute(sqlQuery, insertData)
@@ -47,9 +40,8 @@ class facultyDatabasePopulation:
 
             """
 
-            for course in courseList:
-                # format (classNumber, classDescription, classProf, courseID)
-                insertData = (course[0], "TBD", course[2], course[1], course[4], self.WebScrapper.getFacMember())
+            for course in range(len(courseList)):
+                insertData = courseList[course]
                 self.cursor.execute(sqlQuery, insertData)
                 self.connection.commit()
     def populateDatabase(self):
@@ -66,7 +58,12 @@ class facultyDatabasePopulation:
         if self.connection.is_connected():
             self.connection.close()
             print("MySQL connection is closed")
-populator = facultyDatabasePopulation("testCeias.txt")
-#populator.populateFac("mlv83")
+
+
+sysArgLen = len(sys.argv)
+if sysArgLen > 1:
+    populator = facultyDatabasePopulation(sys.argv[1])
+else:
+    populator = facultyDatabasePopulation("default.txt")
 populator.populateDatabase()
 populator.closeConnection()
