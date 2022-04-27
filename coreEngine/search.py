@@ -20,7 +20,7 @@ class Search():
             self.__db = pymysql.connect(host='localhost',
                                         port=3306,
                                         user='root',
-                                        password='111',
+                                        password='',
                                         database='chatterjack',
                                         charset='utf8',
                                         cursorclass=pymysql.cursors.DictCursor)
