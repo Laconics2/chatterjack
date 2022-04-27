@@ -1,7 +1,7 @@
 required packages: BeautifulSoup
                    json( i think this comes default?)
                    pymysql
-run insertAllbData.py to populate the database
+run insertAllData.py to populate the database
   NOTE: insertWebData.py will populate person and class table, but not org table
 
 NOTE: There are duplicates of some classes.
