@@ -1,23 +1,28 @@
-import mysql.connector
+import pymysql
 import sys
 from mysql.connector import errorcode
 from webscrapper import WebScrapper
 
-class facultyDatabasePopulation:
+class DatabasePopulation:
     def __init__(self, facFile):
         self.WebScrapper = WebScrapper()
         self.facFile = facFile
+        connected = False
+
         try:
-            self.connection = mysql.connector.connect(host='localhost',
-                                             database='chatterjack',
-                                             port=3306,
-                                             user='root',
-                                             password='111')
+            __db = None
+            # connect with the database
+            self.connection = pymysql.connect(host='localhost',
+                                            port=3306,
+                                            user='root',
+                                            password='111',
+                                            database='chatterjack',
+                                            charset='utf8',
+                                            cursorclass=pymysql.cursors.DictCursor)
+            self.connected = True
             self.cursor = self.connection.cursor()
-        except mysql.connector.Error as err:
-            print("Something went wrong: {}".format(err))
-            self.connection = None
-            self.cursor = None
+        except pymysql.Error as e:
+            print('Database connect fail')
 
     def populateFac(self):
         if self.connection is not None and self.cursor is not None:
@@ -35,8 +40,8 @@ class facultyDatabasePopulation:
 
             courseList = self.WebScrapper.getCoursesTaught()
 
-            sqlQuery = """INSERT INTO class (class_name, _where, _who, _what, _when, author)
-                                VALUES (%s, %s, %s, %s, %s, %s)
+            sqlQuery = """INSERT INTO class (class_name, class_section, _where, _who, _what, _when, author)
+                                VALUES (%s, %s, %s, %s, %s, %s, %s)
 
             """
 
@@ -55,15 +60,15 @@ class facultyDatabasePopulation:
             self.populateCourses()
 
     def closeConnection(self):
-        if self.connection.is_connected():
+        if self.connected:
             self.connection.close()
             print("MySQL connection is closed")
 
 
 sysArgLen = len(sys.argv)
 if sysArgLen > 1:
-    populator = facultyDatabasePopulation(sys.argv[1])
+    populator = DatabasePopulation(sys.argv[1])
 else:
-    populator = facultyDatabasePopulation("default.txt")
+    populator = DatabasePopulation("default.txt")
 populator.populateDatabase()
 populator.closeConnection()

@@ -26,7 +26,6 @@ class WebScrapper:
     # returns a tuple of name, office building, sex, and rank
 
     def getFacSex(self):
-        sex = None
         if "pronouns" not in self.facJson or self.facJson["pronouns"] == None:
             sex = "unknown"
         elif self.facJson["pronouns"] == "he/him/his":
@@ -87,12 +86,13 @@ class WebScrapper:
 
         for course in uniqueCourses:
             courseID = course["crse_id"]
-            class_name = course["subject"] + course["catalog_nbr"]
+            class_name = course["subject"].strip().lower() + course["catalog_nbr"].strip()
+            class_section = class_name + "-" + course["class_section"].strip()
             _where = self.getCourseLocation(course["subject"], course["catalog_nbr"], course["strm"])
             _who, author = self.getFacInfo()[0], self.getFacInfo()[-1]
             _what = self.getCourseDescription(courseID)
             _when = self.getCourseTime( course["subject"], course["catalog_nbr"], course["strm"])
-            element = (class_name, _where, _who, _what, _when, author)
+            element = (class_name, class_section, _where, _who, _what, _when, author)
             courseList.append(element)
         return courseList
 
@@ -133,6 +133,7 @@ class WebScrapper:
         except:
             print("an error occurred while getting the times for that class")
         return results
+
     # MUST BE CALLED FIRST
     def changeFacMember(self, facID):
         self.facJson = self.getJson(facID)
@@ -140,4 +141,3 @@ class WebScrapper:
 
     def getFacID(self):
         return self.facID
-
