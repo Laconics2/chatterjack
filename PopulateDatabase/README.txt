@@ -1,12 +1,12 @@
 required packages: BeautifulSoup
                    json( i think this comes default?)
-                   mysql.connector( this should already be installed on the server)
-run insertWebData.py to populate the database
+                   pymysql
+run insertAllbData.py to populate the database
+  NOTE: insertWebData.py will populate person and class table, but not org table
 
 NOTE: There are duplicates of some classes.
 This is due to multiple professors teaching
 the same class
 
-currently insertWebData.py runs with ceias_fac_nau_ids.txt
-But if faculty IDs were added from a different department
-the script would theoretically still work(I have not tested)
+running insertAllData.py without arguments will look for default.txt within the same folder, and populate based on nauIDs present within
+run insertAllData.py name_of_file.txt to insert data about nauIDs present within name_of_file.txt
