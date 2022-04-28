@@ -47,13 +47,10 @@ def populateAllInf():
 
     file = open("allInf.txt", "r")
 
-    lines = file.readlines()
+    lines = file.read().splitlines()
     file.close()
 
-    for element in lines:
-        if element is not lines[0]:
-            all.append(element.strip())
-    return all
+    return lines[1::]
 
 interrogatives = ['what', 'where', 'when', 'how', 'which', 'who']
 
