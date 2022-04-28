@@ -1,6 +1,15 @@
 import pymysql
-
+import os
 def populateAllInf():
+    try:
+        with open("allInf.txt", 'r') as fileObject:
+            lastEntrySQL = int(fileObject.readline())
+
+    except:
+        lastEntrySQL = 0
+
+    #print("Last:" + str(lastEntrySQL))
+    all = []
     try:
         db = pymysql.connect(host='localhost',
                                     port=3306,
@@ -12,24 +21,38 @@ def populateAllInf():
         connected = True
     except pymysql.Error as e:
         print('Database connect fail')
+
     cursor = db.cursor()
-    # grab all person information
-    personName = "SELECT `person_name` FROM PERSON"
-    cursor.execute(personName)
-    all_person = [item['person_name'] for item in cursor.fetchall()]
-    # grab all class name
-    claName = "SELECT `class_name` FROM CLASS"
-    cursor.execute(claName)
-    all_cla = [item['class_name'] for item in cursor.fetchall()]
-    # grab all class section
-    claSelection = "SELECT `class_section` FROM CLASS"
-    cursor.execute(claSelection)
-    all_claSection = [item['class_section'] for item in cursor.fetchall()]
-    # grab all org name
-    orgName = "SELECT `org_name` FROM ORG"
-    cursor.execute(orgName)
-    all_org = [item['org_name'] for item in cursor.fetchall()]
-    all = all_person + all_cla + all_claSection + all_org
+    latestEntry = lastEntrySQL
+    for entity in ["PERSON", "CLASS", "ORG"]:
+        temp = int(cursor.execute(f"SELECT 'id' from {entity} ORDER BY id;"))
+        if temp > latestEntry:
+            latestEntry = temp
+
+    curEntrySQL = temp
+
+    if lastEntrySQL < latestEntry:
+        try:
+            os.remove("allInf.txt")
+        except:
+            pass
+        file = open("allInf.txt", "a")
+        file.write(str(latestEntry) + "\n")
+        for entity in ["person", "class", "org"]:
+            names = cursor.execute(f"SELECT `{entity}_name` FROM {entity}")
+            results =  cursor.fetchall()
+            for name in results:
+                file.write( name[f"{entity}_name"] + "\n")
+        file.close()
+
+    file = open("allInf.txt", "r")
+
+    lines = file.readlines()
+    file.close()
+
+    for element in lines:
+        if element is not lines[0]:
+            all.append(element.strip())
     return all
 
 interrogatives = ['what', 'where', 'when', 'how', 'which', 'who']
@@ -43,7 +66,7 @@ table_list = ['ORG', 'PERSON', 'CLASS']
 multi_section = "Sorry, this is the multiple section classes, you need to provide both class name and section number, like cs122-001"
 
 allInf = populateAllInf()
-
+print(allInf)
 # ending the conversation
 stop = ['no']
 # continuing the conversation
