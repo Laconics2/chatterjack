@@ -9,7 +9,8 @@ class JJ_setup:
         self.packages = ['wxPython', 'wavio', 'sounddevice',
                          'pydub', 'SpeechRecognition',
                          'pymysql', 'spacy', 'regex', 'sklearn',
-                         'numpy', 'scipy', 'requests', 'beautifulsoup4']
+                         'numpy', 'scipy', 'requests', 'beautifulsoup4',
+                         'pyttsx3', 'scipy']
 
     def check_packages(self):
         # implement pip as a subprocess:
