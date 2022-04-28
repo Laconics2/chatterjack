@@ -31,7 +31,7 @@ def populateAllInf():
 
     curEntrySQL = temp
 
-    if lastEntrySQL < latestEntry:
+    if lastEntrySQL != latestEntry:
         try:
             os.remove("allInf.txt")
         except:
