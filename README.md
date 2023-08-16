@@ -7,3 +7,4 @@ All code for for the ChatterJack Chatbot. It be seperate four parts, coreEngine,
 ***
 
 ## Setup Developer Environment
+Cross your fingers and hope for the best, good luck
